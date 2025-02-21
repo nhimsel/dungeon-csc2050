@@ -4,49 +4,55 @@ using UnityEngine;
 
 public class doormanager : MonoBehaviour
 {
+    public bool NDoorStart;
+    public bool SDoorStart;
+    public bool WDoorStart;
+    public bool EDoorStart;
+    
     public GameObject NDoor;
     public GameObject SDoor;
     public GameObject WDoor;
     public GameObject EDoor;
-    public bool NDoorEnabled = false;
-    public bool SDoorEnabled = false;
-    public bool EDoorEnabled = false;
-    public bool WDoorEnabled = false;
     // Start is called before the first frame update
     void Start()
     {
-        NDoor.SetActive(NDoorEnabled);
-        SDoor.SetActive(SDoorEnabled);
-        WDoor.SetActive(WDoorEnabled);
-        EDoor.SetActive(EDoorEnabled);
+        Core.NDoorEnabled = this.NDoorStart;
+        Core.SDoorEnabled = this.SDoorStart;
+        Core.WDoorEnabled = this.WDoorStart;
+        Core.EDoorEnabled = this.EDoorStart;
+
+        NDoor.SetActive(Core.NDoorEnabled);
+        SDoor.SetActive(Core.SDoorEnabled);
+        WDoor.SetActive(Core.WDoorEnabled);
+        EDoor.SetActive(Core.EDoorEnabled);
     }
 
     // Update is called once per frame
     void Update()
     {
-        NDoor.SetActive(NDoorEnabled);
-        SDoor.SetActive(SDoorEnabled);
-        WDoor.SetActive(WDoorEnabled);
-        EDoor.SetActive(EDoorEnabled);
+        NDoor.SetActive(Core.NDoorEnabled);
+        SDoor.SetActive(Core.SDoorEnabled);
+        WDoor.SetActive(Core.WDoorEnabled);
+        EDoor.SetActive(Core.EDoorEnabled);
     }
 
     public void Change(GameObject door)
     {
         if (door.Equals(NDoor))
         {
-            NDoorEnabled = !NDoorEnabled;
+            Core.NDoorEnabled = !Core.NDoorEnabled;
         }
         else if (door.Equals(SDoor))
         {
-            SDoorEnabled = !SDoorEnabled;
+            Core.SDoorEnabled = !Core.SDoorEnabled;
         }
         else if (door.Equals(EDoor))
         {
-            EDoorEnabled = !EDoorEnabled;
+            Core.EDoorEnabled = !Core.EDoorEnabled;
         }
         else if (door.Equals(WDoor))
         {
-            WDoorEnabled = !WDoorEnabled;
+            Core.WDoorEnabled = !Core.WDoorEnabled;
         }
     }
 }

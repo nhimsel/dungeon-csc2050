@@ -303,14 +303,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b676f78443c6ba14ebd028198ee4dd14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NDoorStart: 1
+  SDoorStart: 0
+  WDoorStart: 1
+  EDoorStart: 0
   NDoor: {fileID: 622989540}
   SDoor: {fileID: 468832699}
   WDoor: {fileID: 1824844237}
   EDoor: {fileID: 1915339302}
-  NDoorEnabled: 1
-  SDoorEnabled: 1
-  EDoorEnabled: 0
-  WDoorEnabled: 0
 --- !u!4 &159793645
 Transform:
   m_ObjectHideFlags: 0
