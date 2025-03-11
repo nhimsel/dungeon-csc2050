@@ -365,8 +365,11 @@
 -analyzer:"/opt/unityeditor/2022.3.57f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"/opt/unityeditor/2022.3.57f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/Core.cs"
-"Assets/Scripts/doormanager.cs"
-"Assets/Scripts/player.cs"
+"Assets/Scripts/Dungeon.cs"
+"Assets/Scripts/Exit.cs"
+"Assets/Scripts/Player.cs"
+"Assets/Scripts/Room.cs"
+"Assets/Scripts/RoomManager.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic
