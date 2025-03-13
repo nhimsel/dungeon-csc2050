@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
     public GameObject[] theDoors;
+    public GameObject minimapRoom;
     private Dungeon theDungeon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,7 +36,18 @@ public class RoomManager : MonoBehaviour
 
     private bool tryMove(string direction)
     {
-        return Core.thePlayer.getCurrentRoom().tryToTakeExit(direction);
+        //return Core.thePlayer.getCurrentRoom().tryToTakeExit(direction);
+        if(Core.thePlayer.getCurrentRoom().tryToTakeExit(direction))
+        {
+            string r = Core.thePlayer.getCurrentRoom().getName();
+            if(Core.isNewRoom(r))
+            {
+                Core.discoverRoom(r);
+                Debug.Log("discovered "+r);
+            }
+            return true;
+        }
+        return false;
     }
 
     // Update is called once per frame
