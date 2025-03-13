@@ -442,8 +442,8 @@ Transform:
   m_Children:
   - {fileID: 622989541}
   - {fileID: 468832700}
-  - {fileID: 1824844238}
   - {fileID: 1915339303}
+  - {fileID: 1824844238}
   m_Father: {fileID: 73633374}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &468832699
@@ -932,8 +932,8 @@ MonoBehaviour:
   theDoors:
   - {fileID: 622989540}
   - {fileID: 468832699}
-  - {fileID: 1824844237}
   - {fileID: 1915339302}
+  - {fileID: 1824844237}
 --- !u!1 &1215555019
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Room
 {
-    private Player thePlayer;
-
     private GameObject[] theDoors;
     private Exit[] availableExits = new Exit[4];
     private int currNumberOfExits = 0;
@@ -15,7 +13,6 @@ public class Room
     public Room(string name)
     {
         this.name = name;
-        this.thePlayer = null;
     }
 
     public string getName()
@@ -23,17 +20,17 @@ public class Room
         return this.name;
     }
 
-    public void tryToTakeExit(string direction)
+    public bool tryToTakeExit(string direction)
     {
         for(int i = 0; i<this.currNumberOfExits; i++)
         {
             if(String.Equals(this.availableExits[i].getDirection(), direction))
             {
                 Core.thePlayer.setCurrentRoom(this.availableExits[i].getDestination());
-                Core.thePlayer.getCurrentRoom().setPlayer(Core.thePlayer);
-                this.setPlayer(null);
+                return true;
             }
         }
+        return false;
     }
 
     public bool hasExit(string direction)
@@ -46,11 +43,6 @@ public class Room
             }
         }
         return false;
-    }
-    public void setPlayer(Player p)
-    {
-        this.thePlayer = p;
-        this.thePlayer.setCurrentRoom(this);
     }
     public void addExit(string direction, Room destination)
     {
