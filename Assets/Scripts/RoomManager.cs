@@ -41,12 +41,12 @@ public class RoomManager : MonoBehaviour
         //return Core.thePlayer.getCurrentRoom().tryToTakeExit(direction);
         if(Core.thePlayer.getCurrentRoom().tryToTakeExit(direction))
         {
-            string r = Core.thePlayer.getCurrentRoom().getName();
+            int ID = Core.thePlayer.getCurrentRoom().getID();
             dirModCoord(direction);
-            if(Core.isNewRoom(r))
+            if(Core.isNewRoom(ID))
             {
-                Core.discoverRoom(r);
-                Debug.Log("discovered "+r);
+                Core.discoverRoom(ID);
+                Debug.Log("discovered R"+ID);
                 newRoomMinimap(curX, curY);
             }
             return true;

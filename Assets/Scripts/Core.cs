@@ -6,15 +6,16 @@ using UnityEngine;
 public class Core
 {
     public static Player thePlayer;
-    public static List<string> discoveredRooms = new List<string>();
+    public static int lastUsedID=0;
+    public static List<int> discoveredRooms = new List<int>();
 
-    public static void discoverRoom(string r)
+    public static void discoverRoom(int ID)
     {
-        discoveredRooms.Add(r);
+        discoveredRooms.Add(ID);
     }
 
-    public static bool isNewRoom(string r)
+    public static bool isNewRoom(int ID)
     {
-        return !discoveredRooms.Contains(r);
+        return !discoveredRooms.Contains(ID);
     }
 }

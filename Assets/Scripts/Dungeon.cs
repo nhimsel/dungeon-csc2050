@@ -23,5 +23,6 @@ public class Dungeon
 	    r6.addExit("south", r3);
 
 		Core.thePlayer.setCurrentRoom(r1);
+		Core.discoverRoom(r1.getID());
     }
 }

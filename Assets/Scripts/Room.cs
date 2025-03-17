@@ -7,17 +7,24 @@ public class Room
     private GameObject[] theDoors;
     private Exit[] availableExits = new Exit[4];
     private int currNumberOfExits = 0;
+    private int ID=-1;
 
     private string name;
 
     public Room(string name)
     {
         this.name = name;
+        this.ID = Core.lastUsedID++;
     }
 
     public string getName()
     {
         return this.name;
+    }
+
+    public int getID()
+    {
+        return this.ID;
     }
 
     public bool tryToTakeExit(string direction)
