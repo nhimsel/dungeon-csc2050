@@ -64,7 +64,7 @@ public class RoomManager : MonoBehaviour
 
     private void newRoomMinimap(int xMult, int yMult)
     {
-        Debug.Log("curx = "+curX+"\ncury = "+curY);
+        //Debug.Log("curx = "+curX+"\ncury = "+curY);
         GameObject newRoom = Instantiate(this.minimapRoom);
         newRoom.transform.SetParent(this.minimapRoom.transform.parent);
         Vector3 currPos = newRoom.transform.position;
