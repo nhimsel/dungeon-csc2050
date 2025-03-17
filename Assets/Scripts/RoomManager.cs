@@ -46,7 +46,7 @@ public class RoomManager : MonoBehaviour
             if(Core.isNewRoom(ID))
             {
                 Core.discoverRoom(ID);
-                Debug.Log("discovered R"+ID);
+                //Debug.Log("discovered R"+ID);
                 newRoomMinimap(curX, curY);
             }
             return true;
