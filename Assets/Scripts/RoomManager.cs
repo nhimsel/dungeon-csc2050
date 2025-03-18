@@ -17,14 +17,13 @@ public class RoomManager : MonoBehaviour
         this.setupRoom();
     }
 
-    //disable all doors
-    private void resetRoom()
+    /* private void resetRoom()
     {
         this.theDoors[0].SetActive(false);
         this.theDoors[1].SetActive(false);
         this.theDoors[2].SetActive(false);
         this.theDoors[3].SetActive(false);
-    }
+    } */
 
     //show the doors appropriate to the current room
     private void setupRoom()
