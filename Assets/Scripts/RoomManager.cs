@@ -67,9 +67,11 @@ public class RoomManager : MonoBehaviour
         //Debug.Log("curx = "+curX+"\ncury = "+curY);
         GameObject newRoom = Instantiate(this.minimapRoom);
         newRoom.transform.SetParent(this.minimapRoom.transform.parent);
-        Vector3 currPos = newRoom.transform.position;
+        Quaternion rotation;
+        Vector3 currPos;
+        this.minimapRoom.transform.GetLocalPositionAndRotation(out currPos, out rotation);
         Vector3 newPos = new Vector3(currPos.x + (11f*xMult), currPos.y + (11f*yMult), currPos.z);
-        newRoom.transform.SetLocalPositionAndRotation(newPos,newRoom.transform.rotation);
+        newRoom.transform.SetLocalPositionAndRotation(newPos,rotation);
     }
 
     void Update()
