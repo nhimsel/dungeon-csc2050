@@ -7,27 +7,12 @@ using UnityEngine;
 public class Room
 {
     private GameObject[] theDoors;
-    /* private Exit[] availableExits = new Exit[4];
-    private int currNumberOfExits = 0; */    
     private List<Exit> availableExits = new List<Exit>();
-    private int ID=-1;
+    private bool discovered = false;
 
-    private string name;
-
-    public Room(string name)
+    public bool isDiscovered()
     {
-        this.name = name;
-        this.ID = Core.lastUsedID++;
-    }
-
-    public string getName()
-    {
-        return this.name;
-    }
-
-    public int getID()
-    {
-        return this.ID;
+        return discovered;
     }
 
     public bool tryToTakeExit(string direction)
@@ -37,6 +22,7 @@ public class Room
             if(direction.Equals(this.availableExits.ElementAt(i).getDirection()))
             {
                 Core.thePlayer.setCurrentRoom(this.availableExits[i].getDestination());
+                this.discovered = true;
                 return true;
             }
         }

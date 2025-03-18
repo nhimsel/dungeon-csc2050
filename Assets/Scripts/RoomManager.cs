@@ -9,7 +9,6 @@ public class RoomManager : MonoBehaviour
     private int curX=0;
     private int curY=0;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Core.thePlayer = new Player("Player");
@@ -17,15 +16,6 @@ public class RoomManager : MonoBehaviour
         this.setupRoom();
     }
 
-    /* private void resetRoom()
-    {
-        this.theDoors[0].SetActive(false);
-        this.theDoors[1].SetActive(false);
-        this.theDoors[2].SetActive(false);
-        this.theDoors[3].SetActive(false);
-    } */
-
-    //show the doors appropriate to the current room
     private void setupRoom()
     {
         Room currentRoom = Core.thePlayer.getCurrentRoom();
@@ -37,15 +27,11 @@ public class RoomManager : MonoBehaviour
 
     private bool tryMove(string direction)
     {
-        //return Core.thePlayer.getCurrentRoom().tryToTakeExit(direction);
         if(Core.thePlayer.getCurrentRoom().tryToTakeExit(direction))
         {
-            int ID = Core.thePlayer.getCurrentRoom().getID();
             dirModCoord(direction);
-            if(Core.isNewRoom(ID))
+            if(!Core.thePlayer.getCurrentRoom().isDiscovered())
             {
-                Core.discoverRoom(ID);
-                //Debug.Log("discovered R"+ID);
                 newRoomMinimap(curX, curY);
             }
             return true;
@@ -63,7 +49,6 @@ public class RoomManager : MonoBehaviour
 
     private void newRoomMinimap(int xMult, int yMult)
     {
-        //Debug.Log("curx = "+curX+"\ncury = "+curY);
         GameObject newRoom = Instantiate(this.minimapRoom);
         newRoom.transform.SetParent(this.minimapRoom.transform.parent);
         Quaternion rotation;

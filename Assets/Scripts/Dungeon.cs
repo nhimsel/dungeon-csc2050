@@ -4,12 +4,12 @@ public class Dungeon
 {
     public Dungeon()
     {
-        Room r1 = new Room("R1");
-	    Room r2 = new Room("R2");
-	    Room r3 = new Room("R3");
-	    Room r4 = new Room("R4");
-	    Room r5 = new Room("R5");
-	    Room r6 = new Room("R6");
+        Room r1 = new Room();
+	    Room r2 = new Room();
+	    Room r3 = new Room();
+	    Room r4 = new Room();
+	    Room r5 = new Room();
+	    Room r6 = new Room();
 
         r1.addExit("north", r2);
 	    r2.addExit("north", r3);
@@ -23,6 +23,5 @@ public class Dungeon
 	    r6.addExit("south", r3);
 
 		Core.thePlayer.setCurrentRoom(r1);
-		Core.discoverRoom(r1.getID());
     }
 }
