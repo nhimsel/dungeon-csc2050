@@ -6,8 +6,7 @@ public class RoomManager : MonoBehaviour
     public GameObject[] theDoors;
     public GameObject minimapRoom;
     private Dungeon theDungeon;
-    private int curX=0;
-    private int curY=0;
+    private Vector2Int coords = new Vector2Int(0,0);
 
     void Start()
     {
@@ -32,7 +31,7 @@ public class RoomManager : MonoBehaviour
             dirModCoord(direction);
             if(!Core.thePlayer.getCurrentRoom().isDiscovered())
             {
-                newRoomMinimap(curX, curY);
+                newRoomMinimap(coords.x, coords.y);
             }
             return true;
         }
@@ -41,10 +40,10 @@ public class RoomManager : MonoBehaviour
     
     private void dirModCoord(string dir)
     {
-        if(dir.Equals("north")) curY++;
-        else if(dir.Equals("south")) curY--;
-        else if(dir.Equals("west")) curX--;
-        else if(dir.Equals("east")) curX++;
+        if(dir.Equals("north")) coords.y++;
+        else if(dir.Equals("south")) coords.y--;
+        else if(dir.Equals("west")) coords.x--;
+        else if(dir.Equals("east")) coords.x++;
     }
 
     private void newRoomMinimap(int xMult, int yMult)
