@@ -1,6 +1,11 @@
 *
-!Assets
-!Packages
-!*Settings
-!Library
+!Assets/
+!Assets/**
+!Packages/
+!Packages/**
+!*Settings/
+!*Settings/**
+!Library/
+!Library/**
 Library/*Cache
+
