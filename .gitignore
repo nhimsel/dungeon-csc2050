@@ -8,4 +8,5 @@
 !Library/
 !Library/**
 Library/*Cache
-
+Library/*Artifact*
+Library/*artifact*
