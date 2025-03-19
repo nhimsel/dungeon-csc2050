@@ -9,4 +9,4 @@
 !Library/**
 Library/*Cache
 Library/*Artifact*
-Library/*artifact*
+Library/Bee/*artifact*
