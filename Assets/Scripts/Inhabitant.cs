@@ -21,6 +21,11 @@ public abstract class Inhabitant
     {
         return this.currHp;
     }
+    
+    public int getMaxHP()
+    {
+        return this.maxHp;
+    }
 
     public int getAC()
     {
@@ -45,11 +50,21 @@ public abstract class Inhabitant
     public void takeDamage(int d)
     {
         this.currHp-=d;
+        noNegHP();
     }
 
     public void takeDamage(int d, int str)
     {
         this.currHp-=(int)((str / 3) * d)/((int)(this.ac / 4)+1);
+        noNegHP();
+    }
+
+    private void noNegHP()
+    {
+        if(this.currHp<0)
+        {
+            this.currHp=0;
+        }
     }
 
     public void display()

@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Threading;
-using System;
+using TMPro;
 
 public class Fight
 {
@@ -8,37 +7,62 @@ public class Fight
     private Inhabitant defender;
     private GameObject attackerGO;
     private GameObject defenderGO;
+    private TMP_Text attackerHPText;
+    private TMP_Text attackerNameText;
+    private TMP_Text defenderHPText;
+    private TMP_Text defenderNameText;
+    private TMP_Text commentaryText;
 
-    public Fight(GameObject player, GameObject enemy)
+    public Fight(GameObject player, GameObject enemy, TMP_Text playerHPText, TMP_Text enemyHPText, TMP_Text commentaryText, TMP_Text playerNameText, TMP_Text enemyNameText)
     {
         this.attacker = new Player();
         this.defender = new Monster();            
         this.attackerGO = player;
         this.defenderGO = enemy;
+        this.attackerHPText = playerHPText;
+        this.defenderHPText = enemyHPText;
+        this.commentaryText = commentaryText;
+        this.attackerNameText = playerNameText;
+        this.defenderNameText = enemyNameText;
         this.firstAttacker();
     }
 
-    public Fight(Inhabitant attacker, Inhabitant defender, GameObject player, GameObject enemy)
+    public Fight(Inhabitant attacker, Inhabitant defender, GameObject player, GameObject enemy, TMP_Text playerHPText, TMP_Text enemyHPText, TMP_Text commentaryText, TMP_Text playerNameText, TMP_Text enemyNameText) : this(player, enemy, playerHPText, enemyHPText, commentaryText, playerNameText, enemyNameText)
     {
         this.attacker = attacker;
         this.defender = defender;
-        this.attackerGO = player;
-        this.defenderGO = enemy;
-        this.firstAttacker();
     }
 
     public void firstAttacker()
     {
         //swap the attacker and defender if the roll is over 10 
-        if (UnityEngine.Random.Range(1, 21) >= 10)
+        if (Random.Range(1, 21) >= 10)
         {
-            Inhabitant tmp = this.attacker;
-            this.attacker = this.defender;
-            this.defender = tmp;
-            GameObject tmpGO = this.attackerGO;
-            this.attackerGO = this.defenderGO;
-            this.defenderGO = tmpGO;
+           swapPlayers(); 
         }
+        setText();
+    }
+
+    private void swapPlayers()
+    {
+        //swap the defender and the attacker
+        Inhabitant tmp = attacker;
+        attacker = defender;
+        defender = tmp;
+        GameObject tmpGO = this.attackerGO;
+        this.attackerGO = this.defenderGO;
+        this.defenderGO = tmpGO;
+        TMP_Text tmpHPText = this.attackerHPText;
+        this.attackerHPText = this.defenderHPText;
+        this.defenderHPText = tmpHPText;
+    }
+    private void setText()
+    {
+        //sets the initial HP and Name Text for the attacker and defender
+        this.attackerHPText.SetText(this.attacker.getHP()+"/"+this.attacker.getMaxHP());
+        this.defenderHPText.SetText(this.defender.getHP()+"/"+this.defender.getMaxHP());
+        this.attackerNameText.SetText(this.attacker.getName()+"'s HP:");
+        this.defenderNameText.SetText(this.defender.getName()+"'s HP:");
     }
     public void Turn()
     {
@@ -47,20 +71,20 @@ public class Fight
 
         if (!this.attacker.isDead() && !this.defender.isDead())
         {
-            attacker.display();
-            defender.display();
+            //attacker.display();
+            //defender.display();
             printStuff(attacker.getName() + " is on the offensive.");
 
-            int atkRoll = UnityEngine.Random.Range(1,21);
+            int atkRoll = Random.Range(1,21);
             if (atkRoll >= defender.getAC())
             {
                 //defender has been hit
                 int tempHP = defender.getHP();
-                int damage = UnityEngine.Random.Range(1,7);
+                int damage = Random.Range(1,7);
 
                 //scoring a critical hit
                 bool crit = false;
-                if (UnityEngine.Random.Range(1,101)==77)
+                if (Random.Range(1,101)==77)
                 {
                     damage*=2;
                     crit = true;
@@ -73,6 +97,8 @@ public class Fight
                 defender.getName()+".");
 
                 if (crit) printStuff("It was a critical hit!");
+
+                defenderHPText.SetText(defender.getHP() + "/" + defender.getMaxHP());
 
                 if (defender.isDead())
                 {
@@ -89,12 +115,12 @@ public class Fight
                 if (atkRoll<=2)
                 {
                     //attack missed, defender counterattacks
-                    int damage = UnityEngine.Random.Range(1,3);
+                    int damage = Random.Range(1,3);
                     attacker.takeDamage(damage);
 
                     //scoring a critical hit
                     bool crit = false;
-                    if (UnityEngine.Random.Range(1,101)==77)
+                    if (Random.Range(1,101)==77)
                     {
                         damage*=2;
                         crit = true;
@@ -106,6 +132,8 @@ public class Fight
 
                     if (crit) printStuff("It was a critical hit!");
 
+                    attackerHPText.SetText(attacker.getHP() + "/" + attacker.getMaxHP());
+                   
                     if (attacker.isDead())
                     {
                         //attacker is dead, defender wins
@@ -116,22 +144,16 @@ public class Fight
                 }
                 else
                 {
-                    printStuff(defender.getName() + " defended themselves from the hit.");
+                    printStuff(defender.getName() + " defended himself from the hit.");
                 }
-
-                //swap players
-                Inhabitant tmp = attacker;
-                attacker = defender;
-                defender = tmp;
-                GameObject tmpGO = this.attackerGO;
-                this.attackerGO = this.defenderGO;
-                this.defenderGO = tmpGO;       
             }
+            swapPlayers();
         }
     }
 
     private void printStuff(string s)
     {
         Debug.Log(s);
+        commentaryText.SetText(s);
     }
 }

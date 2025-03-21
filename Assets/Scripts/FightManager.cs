@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class fightManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject enemy;
+    public TMP_Text playerNameText;
+    public TMP_Text enemyNameText;
+    public TMP_Text playerHPText;
+    public TMP_Text enemyHPText;
+    public TMP_Text commentaryText;
     private Fight fight;
     private float time;
     private float wait = 1f;
     void Start()
     {
-        fight = new Fight(player, enemy);
+        fight = new Fight(player, enemy, playerHPText, enemyHPText, commentaryText, playerNameText, enemyNameText);
     }
 
     void FixedUpdate()
