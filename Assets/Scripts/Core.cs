@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class Core
 {
-    public static Player thePlayer;
+    public static Player thePlayer = new Player();
 }

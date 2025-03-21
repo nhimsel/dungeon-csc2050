@@ -1,55 +1,66 @@
 using UnityEngine;
+using System.Threading;
+using System;
 
 public class Fight
 {
     private Inhabitant attacker;
     private Inhabitant defender;
+    private GameObject attackerGO;
+    private GameObject defenderGO;
 
-    public Fight()
+    public Fight(GameObject player, GameObject enemy)
     {
-        this.attacker = new Player("Player");
-        this.defender = new Monster("Monster");            
+        this.attacker = new Player();
+        this.defender = new Monster();            
+        this.attackerGO = player;
+        this.defenderGO = enemy;
         this.firstAttacker();
     }
 
-    public Fight(Inhabitant attacker, Inhabitant defender)
+    public Fight(Inhabitant attacker, Inhabitant defender, GameObject player, GameObject enemy)
     {
         this.attacker = attacker;
         this.defender = defender;
+        this.attackerGO = player;
+        this.defenderGO = enemy;
         this.firstAttacker();
     }
 
     public void firstAttacker()
     {
         //swap the attacker and defender if the roll is over 10 
-        if (Random.Range(1, 21) >= 10)
+        if (UnityEngine.Random.Range(1, 21) >= 10)
         {
             Inhabitant tmp = this.attacker;
             this.attacker = this.defender;
             this.defender = tmp;
+            GameObject tmpGO = this.attackerGO;
+            this.attackerGO = this.defenderGO;
+            this.defenderGO = tmpGO;
         }
     }
-    public void Begin()
+    public void Turn()
     {
         //should have the attacker and defender fight each until one of them dies.
         //the attacker and defender should alternate between each fight round.
 
-        while (!this.attacker.isDead() && !this.defender.isDead())        
+        if (!this.attacker.isDead() && !this.defender.isDead())
         {
             attacker.display();
             defender.display();
             printStuff(attacker.getName() + " is on the offensive.");
 
-            int atkRoll = Random.Range(1,21);
+            int atkRoll = UnityEngine.Random.Range(1,21);
             if (atkRoll >= defender.getAC())
             {
                 //defender has been hit
                 int tempHP = defender.getHP();
-                int damage = Random.Range(1,7);
+                int damage = UnityEngine.Random.Range(1,7);
 
                 //scoring a critical hit
                 bool crit = false;
-                if (Random.Range(1,101)==77)
+                if (UnityEngine.Random.Range(1,101)==77)
                 {
                     damage*=2;
                     crit = true;
@@ -68,7 +79,7 @@ public class Fight
                     //defender is dead, attacker wins
                     printStuff(defender.getName() + " was killed. " +
                     attacker.getName() + " wins.");
-                    return;
+                    GameObject.Destroy(defenderGO);
                 }
             }
 
@@ -78,12 +89,12 @@ public class Fight
                 if (atkRoll<=2)
                 {
                     //attack missed, defender counterattacks
-                    int damage = Random.Range(1,3);
+                    int damage = UnityEngine.Random.Range(1,3);
                     attacker.takeDamage(damage);
 
                     //scoring a critical hit
                     bool crit = false;
-                    if (Random.Range(1,101)==77)
+                    if (UnityEngine.Random.Range(1,101)==77)
                     {
                         damage*=2;
                         crit = true;
@@ -97,22 +108,25 @@ public class Fight
 
                     if (attacker.isDead())
                     {
-                        //attacker was killed, defender wins
+                        //attacker is dead, defender wins
                         printStuff(attacker.getName() + " was killed. "
                         + defender.getName() + " wins.");
-                         return;
+                        GameObject.Destroy(attackerGO);
                     }
                 }
                 else
                 {
                     printStuff(defender.getName() + " defended themselves from the hit.");
                 }
-            }
 
-            //swap players
-            Inhabitant tmp = attacker;
-            attacker = defender;
-            defender = tmp;
+                //swap players
+                Inhabitant tmp = attacker;
+                attacker = defender;
+                defender = tmp;
+                GameObject tmpGO = this.attackerGO;
+                this.attackerGO = this.defenderGO;
+                this.defenderGO = tmpGO;       
+            }
         }
     }
 

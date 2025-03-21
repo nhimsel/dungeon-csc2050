@@ -4,6 +4,10 @@ public class Player : Inhabitant
 {
     private Room currentRoom;
 
+    public Player() : base("Player")
+    {
+        this.currentRoom = null;
+    }
     public Player(string name) : base(name)
     {
         this.currentRoom = null;

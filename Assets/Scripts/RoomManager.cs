@@ -10,7 +10,6 @@ public class RoomManager : MonoBehaviour
 
     void Start()
     {
-        Core.thePlayer = new Player("Player");
         this.theDungeon = new Dungeon();
         this.setupRoom();
     }
@@ -57,7 +56,7 @@ public class RoomManager : MonoBehaviour
         newRoom.transform.SetLocalPositionAndRotation(newPos,rotation);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(Input.GetKeyDown(KeyCode.UpArrow))
         {
