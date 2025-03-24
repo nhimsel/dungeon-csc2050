@@ -55,6 +55,9 @@ public class Fight
         TMP_Text tmpHPText = this.attackerHPText;
         this.attackerHPText = this.defenderHPText;
         this.defenderHPText = tmpHPText;
+        TMP_Text tmpNameText = this.attackerNameText;
+        this.attackerNameText = this.defenderNameText;
+        this.defenderNameText = tmpNameText;
     }
     private void setText()
     {
