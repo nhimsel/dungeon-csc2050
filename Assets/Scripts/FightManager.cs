@@ -14,6 +14,7 @@ public class fightManager : MonoBehaviour
     private Fight fight;
     private float time;
     private float wait = 1f;
+
     void Start()
     {
         fight = new Fight(player, enemy, playerHPText, enemyHPText, commentaryText, playerNameText, enemyNameText);
