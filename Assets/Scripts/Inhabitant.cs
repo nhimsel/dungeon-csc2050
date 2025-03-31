@@ -47,23 +47,33 @@ public abstract class Inhabitant
         return this.currHp<=0;
     }
 
+    public void heal(int h)
+    {
+        this.currHp+=h;
+        checkHP();
+    }
+
     public void takeDamage(int d)
     {
         this.currHp-=d;
-        noNegHP();
+        checkHP();
     }
 
     public void takeDamage(int d, int str)
     {
         this.currHp-=(int)((str / 3) * d)/((int)(this.ac / 4)+1);
-        noNegHP();
+        checkHP();
     }
 
-    private void noNegHP()
+    private void checkHP()
     {
         if(this.currHp<0)
         {
             this.currHp=0;
+        }
+        else if (this.currHp>this.maxHp)
+        {
+            this.currHp = this.maxHp;
         }
     }
 

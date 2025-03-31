@@ -86,10 +86,13 @@ public class Fight
         this.attackerNameText.SetText(this.attacker.getName()+"'s HP:");
         this.defenderNameText.SetText(this.defender.getName()+"'s HP:");
     }
-    public void Turn()
+    public void Turn(short atkType)
     {
         //should have the attacker and defender fight each until one of them dies.
         //the attacker and defender should alternate between each fight round.
+
+        // atkType determines the type of attack attempted
+        // 0 is a standard attack, 1 is a heavy attack, 2 is heal
 
         if (!this.attacker.isDead() && !this.defender.isDead())
         {
@@ -97,8 +100,22 @@ public class Fight
             //defender.display();
             printStuff(attacker.getName() + " is on the offensive.");
 
+            //by default, everything has perfect accuracy
+            int accRoll = 20;
+            
             int atkRoll = Random.Range(1,21);
-            if (atkRoll >= defender.getAC())
+            
+            //heavy attack
+            if (atkType == 1)
+            {
+                // roll for accuracy
+                accRoll = Random.Range(0,15);    
+
+                //increase atkRoll by 20%
+                atkRoll += (int) (atkRoll*.2);
+            }
+
+            if (atkRoll >= defender.getAC() && accRoll >= 5)
             {
                 //defender has been hit
                 int tempHP = defender.getHP();
@@ -129,6 +146,12 @@ public class Fight
                     attacker.getName() + " wins.");
                     GameObject.Destroy(defenderGO);
                 }
+            }
+
+            else if (atkType == 2)
+            {
+                //attacker chose to heal
+
             }
 
             else
