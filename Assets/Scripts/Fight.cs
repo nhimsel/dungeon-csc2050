@@ -156,7 +156,7 @@ public class Fight
 
     private void printStuff(string s)
     {
-        Debug.Log(s);
+        //Debug.Log(s);
         commentaryText.SetText(s);
     }
 }
