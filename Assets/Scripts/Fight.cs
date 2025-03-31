@@ -13,21 +13,31 @@ public class Fight
     private TMP_Text defenderNameText;
     private TMP_Text commentaryText;
 
-    public Fight(GameObject player, GameObject enemy, TMP_Text playerHPText, TMP_Text enemyHPText, TMP_Text commentaryText, TMP_Text playerNameText, TMP_Text enemyNameText)
+    /*
+     * children of canvas:
+     * current as of 03-31-2025
+     * 0 - enemy hp
+     * 1 - enemy name label
+     * 2 - player hp
+     * 3 - player name label
+     * 4 - commentary
+     */
+
+    public Fight(GameObject player, GameObject enemy, GameObject canvas)
     {
         this.attacker = new Player();
         this.defender = new Monster();            
         this.attackerGO = player;
         this.defenderGO = enemy;
-        this.attackerHPText = playerHPText;
-        this.defenderHPText = enemyHPText;
-        this.commentaryText = commentaryText;
-        this.attackerNameText = playerNameText;
-        this.defenderNameText = enemyNameText;
+        this.attackerHPText = canvas.getChild(2);
+        this.defenderHPText = canvas.getChild(0);
+        this.commentaryText = canvas.getChild(4);
+        this.attackerNameText = canvas.getChild(3);
+        this.defenderNameText = canvas.getChild(1);
         this.firstAttacker();
     }
 
-    public Fight(Inhabitant attacker, Inhabitant defender, GameObject player, GameObject enemy, TMP_Text playerHPText, TMP_Text enemyHPText, TMP_Text commentaryText, TMP_Text playerNameText, TMP_Text enemyNameText) : this(player, enemy, playerHPText, enemyHPText, commentaryText, playerNameText, enemyNameText)
+    public Fight(Inhabitant player, Inhabitant enemy, GameObject player, GameObject enemy, GameObject canvas) : this(player, enemy, canvas)
     {
         this.attacker = attacker;
         this.defender = defender;
