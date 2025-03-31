@@ -21,6 +21,9 @@ public class Fight
      * 2 - player hp
      * 3 - player name label
      * 4 - commentary
+     * 5 - standard attack button
+     * 6 - heavy attack button
+     * 7 - heal button
      */
 
     public Fight(GameObject player, GameObject enemy, GameObject canvas)
@@ -29,18 +32,24 @@ public class Fight
         this.defender = new Monster();            
         this.attackerGO = player;
         this.defenderGO = enemy;
-        this.attackerHPText = canvas.getChild(2);
-        this.defenderHPText = canvas.getChild(0);
-        this.commentaryText = canvas.getChild(4);
-        this.attackerNameText = canvas.getChild(3);
-        this.defenderNameText = canvas.getChild(1);
+        this.attackerHPText = canvas.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
+        this.defenderHPText = canvas.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        this.commentaryText = canvas.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
+        this.attackerNameText = canvas.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
+        this.defenderNameText = canvas.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+
         this.firstAttacker();
     }
 
-    public Fight(Inhabitant player, Inhabitant enemy, GameObject player, GameObject enemy, GameObject canvas) : this(player, enemy, canvas)
+    public Fight(Inhabitant attacker, Inhabitant defender, GameObject player, GameObject enemy, GameObject canvas) : this(player, enemy, canvas)
     {
         this.attacker = attacker;
         this.defender = defender;
+    }
+
+    public bool playerTurn()
+    {
+        return (this.attacker is Player);
     }
 
     public void firstAttacker()
