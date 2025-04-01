@@ -9,17 +9,23 @@ public class Fight
     private GameObject defenderGO;
     private TMP_Text attackerHPText;
     private TMP_Text attackerNameText;
+    private Transform attackerHPBar;
     private TMP_Text defenderHPText;
     private TMP_Text defenderNameText;
+    private Transform defenderHPBar;
     private TMP_Text commentaryText;
     private TMP_Text commentary2Text;
 
     /*
      * children of canvas:
      * current as of 04-01-2025
-     * 0 - enemy hp
-     * 1 - enemy name label
-     * 2 - player hp
+     * 0 - enemy hp bar
+     * -> 0 - hp bar
+     * -> 1 - hp text
+     * 1 - player hp bar
+     * -> 0 - hp bar
+     * -> 1 - hp text
+     * 2 - enemy name label
      * 3 - player name label
      * 4 - commentary
      * 5 - commentary 2
@@ -34,12 +40,14 @@ public class Fight
         this.defender = new Monster();            
         this.attackerGO = player;
         this.defenderGO = enemy;
-        this.attackerHPText = canvas.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
-        this.defenderHPText = canvas.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        this.attackerHPText = canvas.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+        this.defenderHPText = canvas.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+        this.attackerHPBar = canvas.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform;
+        this.defenderHPBar = canvas.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.transform;
         this.commentaryText = canvas.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
         this.commentary2Text = canvas.transform.GetChild(5).gameObject.GetComponent<TMP_Text>();
         this.attackerNameText = canvas.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
-        this.defenderNameText = canvas.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+        this.defenderNameText = canvas.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
 
         this.firstAttacker();
     }
@@ -77,6 +85,9 @@ public class Fight
         TMP_Text tmpHPText = this.attackerHPText;
         this.attackerHPText = this.defenderHPText;
         this.defenderHPText = tmpHPText;
+        Transform tmpHPBar = this.attackerHPBar;
+        this.attackerHPBar = this.defenderHPBar;
+        this.defenderHPBar = tmpHPBar;
         TMP_Text tmpNameText = this.attackerNameText;
         this.attackerNameText = this.defenderNameText;
         this.defenderNameText = tmpNameText;
@@ -214,6 +225,9 @@ public class Fight
     {
         attackerHPText.SetText(attacker.getHP() + "/" + attacker.getMaxHP());
         defenderHPText.SetText(defender.getHP() + "/" + defender.getMaxHP());
+    
+        attackerHPBar.localScale = new Vector3(((float)attacker.getHP()/attacker.getMaxHP()), attackerHPBar.localScale.y, attackerHPBar.localScale.z);
+        defenderHPBar.localScale = new Vector3(((float)defender.getHP()/defender.getMaxHP()), defenderHPBar.localScale.y, defenderHPBar.localScale.z);
     }
 
     private void printStuff(string s)
