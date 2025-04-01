@@ -12,18 +12,20 @@ public class Fight
     private TMP_Text defenderHPText;
     private TMP_Text defenderNameText;
     private TMP_Text commentaryText;
+    private TMP_Text commentary2Text;
 
     /*
      * children of canvas:
-     * current as of 03-31-2025
+     * current as of 04-01-2025
      * 0 - enemy hp
      * 1 - enemy name label
      * 2 - player hp
      * 3 - player name label
      * 4 - commentary
-     * 5 - standard attack button
-     * 6 - heavy attack button
-     * 7 - heal button
+     * 5 - commentary 2
+     * 6 - standard attack button
+     * 7 - heavy attack button
+     * 8 - heal button
      */
 
     public Fight(GameObject player, GameObject enemy, GameObject canvas)
@@ -35,6 +37,7 @@ public class Fight
         this.attackerHPText = canvas.transform.GetChild(2).gameObject.GetComponent<TMP_Text>();
         this.defenderHPText = canvas.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
         this.commentaryText = canvas.transform.GetChild(4).gameObject.GetComponent<TMP_Text>();
+        this.commentary2Text = canvas.transform.GetChild(5).gameObject.GetComponent<TMP_Text>();
         this.attackerNameText = canvas.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
         this.defenderNameText = canvas.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
 
@@ -81,8 +84,7 @@ public class Fight
     private void setText()
     {
         //sets the initial HP and Name Text for the attacker and defender
-        this.attackerHPText.SetText(this.attacker.getHP()+"/"+this.attacker.getMaxHP());
-        this.defenderHPText.SetText(this.defender.getHP()+"/"+this.defender.getMaxHP());
+        this.updateHP();
         this.attackerNameText.SetText(this.attacker.getName()+"'s HP:");
         this.defenderNameText.SetText(this.defender.getName()+"'s HP:");
     }
@@ -96,9 +98,8 @@ public class Fight
 
         if (!this.attacker.isDead() && !this.defender.isDead())
         {
-            //attacker.display();
-            //defender.display();
-            printStuff(attacker.getName() + " is on the offensive.");
+            //we don't print this if we're gonna heal
+            if (atkType!=2) printStuff(attacker.getName() + " is on the offensive.");
 
             //by default, everything has perfect accuracy
             int accRoll = 20;
@@ -111,15 +112,20 @@ public class Fight
                 // roll for accuracy
                 accRoll = Random.Range(0,15);    
 
-                //increase atkRoll by 20%
-                atkRoll += (int) (atkRoll*.2);
+                //increase atkRoll by 50%
+                atkRoll += (int) (atkRoll*.5);
             }
 
-            if (atkRoll >= defender.getAC() && accRoll >= 5)
+            //player can only attack if their attack roll clears the defender's armor class
+            // and if their accuracy roll is high enough (and if they're not healing)
+            if (atkRoll >= defender.getAC() && accRoll >= 5 && atkType!=2)
             {
                 //defender has been hit
                 int tempHP = defender.getHP();
                 int damage = Random.Range(1,7);
+                
+                //50% more damage if it's a heavy attack
+                if (atkType == 1) damage = (int)(damage+.5*damage);
 
                 //scoring a critical hit
                 bool crit = false;
@@ -137,7 +143,7 @@ public class Fight
 
                 if (crit) printStuff("It was a critical hit!");
 
-                defenderHPText.SetText(defender.getHP() + "/" + defender.getMaxHP());
+                this.updateHP();
 
                 if (defender.isDead())
                 {
@@ -151,13 +157,21 @@ public class Fight
             else if (atkType == 2)
             {
                 //attacker chose to heal
+                int heal = (int) (attacker.getMaxHP()*.25);
+                
+                //heal extra if in critical health
+                if (attacker.getHP()<=5) heal = (int)(heal+heal*.3);
 
+                attacker.heal(heal);
+                this.updateHP();
+
+                printStuff(attacker.getName() + " heals " + heal + " HP.");
             }
 
             else
             {
                 //attack defended
-                if (atkRoll<=2)
+                if (accRoll<=3)
                 {
                     //attack missed, defender counterattacks
                     int damage = Random.Range(1,3);
@@ -177,7 +191,7 @@ public class Fight
 
                     if (crit) printStuff("It was a critical hit!");
 
-                    attackerHPText.SetText(attacker.getHP() + "/" + attacker.getMaxHP());
+                    this.updateHP();
                    
                     if (attacker.isDead())
                     {
@@ -196,9 +210,16 @@ public class Fight
         }
     }
 
+    private void updateHP()
+    {
+        attackerHPText.SetText(attacker.getHP() + "/" + attacker.getMaxHP());
+        defenderHPText.SetText(defender.getHP() + "/" + defender.getMaxHP());
+    }
+
     private void printStuff(string s)
     {
         //Debug.Log(s);
+        commentary2Text.SetText(commentaryText.text);
         commentaryText.SetText(s);
     }
 }

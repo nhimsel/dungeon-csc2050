@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class fightManager : MonoBehaviour
@@ -7,21 +8,25 @@ public class fightManager : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
     public GameObject canvas;
-    private Button basicAttack;
-    private Button heavyAttack;
-    private Button heal; 
+    private Button basicAttack, heavyAttack, heal;
     private Fight fight;
     private float time;
-    private float wait = 1f;
+    private float wait = 2f;
+    private short atkType = -1;
 
     void Start()
     {
         fight = new Fight(player, enemy, canvas);
 
         //layout of canvas children detailed in Fight.cs
-        basicAttack = canvas.gameObject.GetChild(5).gameObject.GetComponent<Button>();
-        heavyAttack = canvas.gameObject.GetChild(6).gameObject.GetComponent<Button>();
-        heal = canvas.gameObject.GetChild(7).gameObject.GetComponent<Button>();
+        basicAttack = canvas.transform.GetChild(6).gameObject.GetComponent<Button>();
+        heavyAttack = canvas.transform.GetChild(7).gameObject.GetComponent<Button>();
+        heal = canvas.transform.GetChild(8).gameObject.GetComponent<Button>();
+
+        //add listeners to manage button inputs
+        basicAttack.onClick.AddListener(() => atkType=0);
+        heavyAttack.onClick.AddListener(() => atkType=1);
+        heal.onClick.AddListener(() => atkType=2);
     }
 
     void FixedUpdate()
@@ -30,16 +35,22 @@ public class fightManager : MonoBehaviour
         {
             // monster takes a basic attack
             fight.Turn(0);
+
+            //reset timer
+            this.time=0f;
         }
-        else
+        else if (timeCheck() && this.fight.playerTurn())
         {
             // it's the player's turn, choose an attack
             // 0 for basic attack, 1 for heavy attack, 2 for heal
-            short atkType;
-            if (/* basicAttack button was pressed*/) atkType = 0;
-            else if (/*heavyAttack button was pressed*/) atkType = 1;
-            else if (/*heal button was pressed*/) atkType = 2;
-            fight.Turn(atkType);
+            if (atkType >=0)
+            {
+                fight.Turn(atkType);
+                atkType=-1;
+
+                //reset timer
+                this.time=0f;
+            }
         }
         time+=Time.deltaTime;
     }
@@ -49,7 +60,6 @@ public class fightManager : MonoBehaviour
         //using this.time, returns true if >=3s, else returns false
         if (this.time>=wait)
         {
-            time -= wait;
             return true;
         }
         return false;

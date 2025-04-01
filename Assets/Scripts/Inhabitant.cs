@@ -61,7 +61,7 @@ public abstract class Inhabitant
 
     public void takeDamage(int d, int str)
     {
-        this.currHp-=(int)((str / 3) * d)/((int)(this.ac / 4)+1);
+        this.currHp-=(int)(((str / 3) * d)/((this.ac / 4)+1))+1;
         checkHP();
     }
 
